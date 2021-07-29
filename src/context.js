@@ -10,7 +10,7 @@ const AppProvider = ({ children }) => {
   const [cocktails, setCocktails] = useState([]);
 
 
-  const fetchDrinks = async () => {
+  const fetchDrinks = useCallback(async () => {
     // because we will use this func every time we type something to the input we have to show loading
     setLoading(true);
     try {
@@ -36,9 +36,9 @@ const AppProvider = ({ children }) => {
       console.log(error)
       setLoading(false)
     }
-  };
+  }, [searchTerm]);
 
-  useEffect(() => { fetchDrinks() }, [searchTerm])
+  useEffect(() => { fetchDrinks() }, [searchTerm, fetchDrinks])
 
   return <AppContext.Provider value={{ loading, cocktails, setSearchTerm }}>{children}</AppContext.Provider>
 }
